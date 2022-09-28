@@ -1,3 +1,4 @@
+# Netflix Data: Cleaning, Analysis and Visualization
 The analysis is done on Netflix Data: Cleaning, Analysis and Visualization from kaggle (https://www.kaggle.com/datasets/ariyoomotade/netflix-data-cleaning-analysis-and-visualization)
 The task is to clean, analyze and visualize dataset. Cleaning and analysis is (or will be) done in Python, visualization will be done in PowerBI.
 
