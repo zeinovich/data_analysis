@@ -3,48 +3,55 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import t
+import os
 pd.set_option("display.precision", 0)
 
+os.chdir('C:/Users/nikit/data_analysis/job salary')
 with open('ds_salaries.csv', 'r') as file:
     data = pd.read_csv(file, index_col=0)
 
 condition = data['company_location'].value_counts() > 5
 condition.index.name = 'country'
 coun_list = condition.index.tolist()
-#%%
 coun_conded = [coun for coun in coun_list if condition[coun]]
 data = data.loc[data['company_location'].isin(coun_conded)]
 #%%
 def salary_analysis(dataframe: pd.DataFrame, criteria: str, group: str, dof_skip=False):
     criteria_list = np.unique(dataframe[criteria])
     groups = np.unique(dataframe[group])
-    analysis = pd.DataFrame(columns=criteria_list, index=groups)
-    analysis.index.name = group
+    analysis = {}
     for crit in criteria_list:
         data = dataframe[dataframe[criteria] == crit]
-        data_grouped = data.groupby(group)['salary_in_usd']
+        mean = data.groupby(group)['salary_in_usd'].mean()
+        count = data.groupby(group)['salary_in_usd'].agg('count')
+        std = data.groupby(group)['salary_in_usd'].std()
+        mean.name = 'mean'
+        count.name = 'count'
+        std.name = 'std'
         groups = np.unique(data[group])
-
-        mean_ = data_grouped.mean()
-        std = data_grouped.std()
+        salary = pd.DataFrame(index=groups, columns=['mean', 'count', 'std'])
+        salary.index.name = 'experience_level'
+        salary.loc[:, 'mean'] = mean
+        salary.loc[:, 'count'] = count
+        salary.loc[:, 'std'] = std
         alpha = 0.05
 
         for grp in groups:
-            dof = len(data[data[group] == grp]) - 1
-
+            dof = salary.loc[grp, 'count'] - 1
             if dof_skip and dof < 3:
-                    mean_.drop(grp)
+                    salary.drop(grp)
                     continue
 
             if dof < 3:
-                interval = '-'
+                salary.loc[grp, 'conf_int'] = '-'
                 continue
 
             t_crit = abs(t.ppf(alpha/2, dof))
-            conf_int = std[grp]*t_crit / np.sqrt(dof + 1)
-            interval = f'+-{conf_int:.0f} ({(conf_int / mean_.loc[grp]*100):.1f}%)'
-            mean_[grp] = f'{mean_[grp]:.0f} {interval}'
-        analysis[crit] = mean_
+            conf_int = salary.loc[grp, 'std']*t_crit / np.sqrt(dof + 1)
+            salary.loc[grp, 'conf_int'] = conf_int
+        analysis[crit] = salary
+
+    analysis = pd.concat(analysis, names=[criteria, group])
     return analysis
 
 yr_exp_mean = salary_analysis(dataframe=data, criteria='work_year', group='experience_level')
