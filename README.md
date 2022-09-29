@@ -5,4 +5,4 @@ are more powerful and convenient tools for visualization such as PowerBI and Tab
 
 Requisites: 
 - Python >3
-- Packages: numpy, pandas, matplotlib
+- Packages: numpy, pandas, matplotlib, scipy
