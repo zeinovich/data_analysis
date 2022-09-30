@@ -14,14 +14,17 @@ condition = data['company_location'].value_counts() > 5
 condition.index.name = 'country'
 coun_list = condition.index.tolist()
 coun_conded = [coun for coun in coun_list if condition[coun]]
-data = data.loc[data['company_location'].isin(coun_conded)]
+data = data.query('company_location not in @coun_conded')
 #%%
 def salary_analysis(dataframe: pd.DataFrame, criteria: str, group: str, dof_skip=False):
     criteria_list = np.unique(dataframe[criteria])
     groups = np.unique(dataframe[group])
+    print(criteria_list)
     analysis = {}
     for crit in criteria_list:
-        data = dataframe[dataframe[criteria] == crit]
+        print(crit, criteria)
+        data = dataframe.query(f"{criteria} == {crit}") 
+        print(data)
         mean = data.groupby(group)['salary_in_usd'].mean()
         count = data.groupby(group)['salary_in_usd'].agg('count')
         std = data.groupby(group)['salary_in_usd'].std()
@@ -46,8 +49,8 @@ def salary_analysis(dataframe: pd.DataFrame, criteria: str, group: str, dof_skip
                 salary.loc[grp, 'conf_int'] = '-'
                 continue
 
-            t_crit = abs(t.ppf(alpha/2, dof))
-            conf_int = salary.loc[grp, 'std']*t_crit / np.sqrt(dof + 1)
+            t_crit = abs(t.ppf( alpha / 2, dof))
+            conf_int = salary.loc[grp, 'std'] * t_crit / np.sqrt(dof + 1)
             salary.loc[grp, 'conf_int'] = conf_int
         analysis[crit] = salary
 
@@ -59,8 +62,8 @@ print(yr_exp_mean)
 print(' ')
 # %%
 def comparison_analysis(dataframe: pd.DataFrame):
-    domestic_workers = dataframe[dataframe['company_location'] == dataframe['employee_residence']]
-    foreign_workers = dataframe[dataframe['company_location'] != dataframe['employee_residence']]
+    domestic_workers = dataframe.query('company_location == employee_residence')
+    foreign_workers = dataframe.query('company_location != employee_residence')
     dw_mean = domestic_workers.groupby(['company_location'])['salary_in_usd'].mean()
     fw_mean = foreign_workers.groupby(['company_location'])['salary_in_usd'].mean()
     dw_mean.name = 'domestic_salary'
@@ -90,8 +93,8 @@ def group_analysis(dataframe: pd.DataFrame, group: str,
                     criteria_func: str, group_func: str):
     groups = np.unique(dataframe[group]) 
     for grp in groups:
-        data = dataframe[dataframe[group] == grp]
-        analysis = salary_analysis(dataframe=data, criteria=criteria_func, group=group_func)
+        data_grp = dataframe.query(f"{group} == {grp}").copy()   
+        analysis = salary_analysis(dataframe=data_grp, criteria=criteria_func, group=group_func)
         print(f'{grp}\n{analysis}\n')
 
 group_analysis(dataframe=data, group='work_year',
