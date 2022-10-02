@@ -74,6 +74,9 @@ for id in null_frame.index.tolist():
 
 print_missing(netflix)
 
+# As far as there are only ~450 missing values, we can drop them
+_, netflix = get_null(netflix) 
+
 # As those are useless for visualization, we can drop them
 netflix = netflix.drop(columns=['date_added', 'listed_in'], axis=1)
 
