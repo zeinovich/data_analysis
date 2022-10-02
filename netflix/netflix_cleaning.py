@@ -80,5 +80,5 @@ _, netflix = get_null(netflix)
 # As those are useless for visualization, we can drop them
 netflix = netflix.drop(columns=['date_added', 'listed_in'], axis=1)
 
-with open('netflix_clean.csv', 'w', encoding='utf8') as file:
-    netflix.to_csv(file)
+with open('netflix_clean.csv', 'wb') as file:
+    netflix.to_csv(file, )
