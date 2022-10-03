@@ -16,6 +16,9 @@ def get_null(df: pd.DataFrame) -> pd.DataFrame:
 def print_missing(df: pd.DataFrame) -> None:
     print('Missing values:')
     print(df.isin(['Not Given']).sum())
+    print('Total missing values:', df.isin(['Not Given']).sum().sum())
+
+print_missing(netflix)
 null_frame, netflix_not_null = get_null(netflix)
 
 split_title = netflix['title'].str.replace(r'(\S+)\s(\S+).*', r'\1 \2', regex=True)
@@ -43,15 +46,8 @@ null_frame, netflix_not_null = get_null(netflix)
 # Treatment by other similarities
 for id in null_frame.index.tolist():
     row = null_frame.loc[id]
-    if row['director'] == 'Not Given':
-        similar = netflix_not_null[(netflix_not_null['type'] == row['type'])&
-                                    (netflix_not_null['country'] == row['country'])&
-                                    (netflix_not_null['rating'] == row['rating'])]
-        if not similar.empty:
-            suggest = similar['director'].value_counts().idxmax()
-            netflix.loc[id, 'director'] = suggest
 
-    elif row['country'] == 'Not Given':
+    if row['country'] == 'Not Given':
         similar = netflix_not_null[(netflix_not_null['type'] == row['type'])&
                                     (netflix_not_null['director'] == row['director'])&
                                     (netflix_not_null['rating'] == row['rating'])]
@@ -63,22 +59,11 @@ print(print_missing(netflix))
 
 null_frame, netflix_not_null = get_null(netflix)
 
-# Final treatment of nulls
-for id in null_frame.index.tolist():
-    row = null_frame.loc[id]
-    if row['country'] == 'Not Given':
-        similar = netflix_not_null.query('director == @row.director')
-        if not similar.empty:
-            suggest = similar['country'].value_counts().idxmax()
-            netflix.loc[id, 'country'] = suggest
-
-print_missing(netflix)
-
-# As far as there are only ~450 missing values, we can drop them
 _, netflix = get_null(netflix) 
 
 # As those are useless for visualization, we can drop them
-netflix = netflix.drop(columns=['date_added', 'listed_in'], axis=1)
+netflix = netflix.drop(columns=['date_added'], axis=1)
+netflix = netflix.drop_duplicates()
 
 with open('netflix_clean.csv', 'wb') as file:
-    netflix.to_csv(file, )
+    netflix.to_csv(file)
