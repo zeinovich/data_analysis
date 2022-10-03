@@ -5,7 +5,7 @@ import os
 
 os.chdir('C:/Users/nikit/data_analysis/netflix')
 
-with open('netflix_clean.csv','r', encoding='utf8') as file:
+with open('/datasets/netflix_clean.csv','r', encoding='utf8') as file:
     netflix = pd.read_csv(file, index_col='show_id')
 
 #%%
@@ -30,7 +30,7 @@ country_count['movie_count'] = country_count['movie_count'].fillna(0)
 
 country_count = country_count.astype(int)
 
-with open('country_count.csv','wb') as file:
+with open('/data for power bi/country_count.csv','wb') as file:
     country_count.to_csv(file)
 # %%
 director_count = netflix['director'].value_counts()
@@ -55,7 +55,8 @@ director_count = director_count.drop('Martin Scorsese')
 
 director_count = director_count.sort_values(by='total_count', ascending=False)
 director_count = director_count.astype(int)
-with open('director_count.csv','wb') as file:
+
+with open('/data for power bi/director_count.csv','wb') as file:
     director_count.to_csv(file, index=True)
 # %%
 genre_count = netflix['listed_in'].str.split(', ', expand=True).stack().value_counts()
@@ -77,6 +78,6 @@ genre_count['tv_count'] = genre_count['tv_count'].fillna(0)
 #%%
 genre_count = genre_count.astype(int)
 # %%
-with open('genre_count.csv','wb') as file:
+with open('/data for power bi/genre_count.csv','wb') as file:
     genre_count.to_csv(file)
 # %%

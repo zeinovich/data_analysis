@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
-os.chdir('C:/Users/nikit/data_analysis/netflix')
+os.chdir('C:/Users/nikit/data_analysis/netflix/datasets')
 
 with open('netflix1.csv','r', encoding='utf8') as file:
     netflix = pd.read_csv(file, index_col='show_id')
