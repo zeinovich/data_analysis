@@ -6,3 +6,7 @@ if you have any idea why).
 - Stats are done using scipy.stats
 - Hypotheses are formulated and tested in Jupyter Notebook file
 - Visualized using PowerBI
+
+To play with visuals I encourage you to open it in PowerBI
+
+![image](https://user-images.githubusercontent.com/114425094/194512080-65fb2bc3-f652-4047-a925-4941c4339e42.png)
