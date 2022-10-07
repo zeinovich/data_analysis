@@ -1,0 +1,43 @@
+genre,count,type
+International Movies,2752,Movie
+Dramas,2426,Movie
+Comedies,1674,Movie
+International TV Shows,1349,TV Show
+Documentaries,869,Movie
+Action & Adventure,859,Movie
+TV Dramas,762,TV Show
+Independent Movies,756,Movie
+Children & Family Movies,641,Movie
+Romantic Movies,616,Movie
+Thrillers,577,Movie
+TV Comedies,573,TV Show
+Crime TV Shows,469,TV Show
+Kids' TV,448,TV Show
+Docuseries,394,Movie
+Music & Musicals,375,Movie
+Romantic TV Shows,370,TV Show
+Horror Movies,357,Movie
+Stand-Up Comedy,343,Movie
+Reality TV,255,TV Show
+British TV Shows,252,TV Show
+Sci-Fi & Fantasy,243,Movie
+Sports Movies,219,Movie
+Anime Series,174,Movie
+Spanish-Language TV Shows,173,TV Show
+TV Action & Adventure,167,TV Show
+Korean TV Shows,151,TV Show
+Classic Movies,116,Movie
+LGBTQ Movies,102,Movie
+TV Mysteries,98,TV Show
+Science & Nature TV,92,TV Show
+TV Sci-Fi & Fantasy,83,TV Show
+TV Horror,75,TV Show
+Anime Features,71,Movie
+Cult Movies,71,Movie
+Teen TV Shows,69,TV Show
+Faith & Spirituality,65,Movie
+TV Thrillers,57,TV Show
+Stand-Up Comedy & Talk Shows,56,Movie
+Movies,53,Movie
+Classic & Cult TV,26,TV Show
+TV Shows,16,TV Show
