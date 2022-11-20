@@ -1,4 +1,4 @@
-#Insurance Fraud
+# Insurance Fraud
 
 The project is done on the insurance fraud dataset from kaggle (https://www.kaggle.com/datasets/girishvutukuri/insurance-fraud)
 The goal is to clean data, make visualization and build ML model to predict if fraud has taken place. Such kind of model may be
