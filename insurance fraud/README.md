@@ -6,3 +6,7 @@ interesting for fintech companies which tackle with fraudelence every day, so bu
 of dollars each year. 
 
 In my view, it's a good problem to solve since it may give hints on what really happens in fraud detection in real companies
+
+# Packaged used
+  
+  pandas, numpy, scipy, sklearn, matplotlib
